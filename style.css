@@ -1,0 +1,40 @@
+.body {
+    margin: 0 auto;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-text {
+    width: 50%;
+    height: 120px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.keyboard-wrapper {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+}
+
+.keyboard-container {
+    width: 60%;
+    height: 100%;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
