@@ -45,6 +45,12 @@ document.addEventListener('keydown', (event) => {
 });
 
 //click
+const keyButtons = document.querySelectorAll('.key-button');
+for (let i = 0; i < keyButtons.length; i++) {
+    keyButtons[i].addEventListener('click', () => {
+        textarea.value += keyButtons[i].textContent;
+    });
+}
 
 
 //CapsLock
