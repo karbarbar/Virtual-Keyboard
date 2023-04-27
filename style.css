@@ -58,13 +58,13 @@
     border-radius: 5px;
 }
 
-.key-button:active {
-    background-color: cadetblue;
-}
-
 .key-button:hover {
     background-color: gray;
     cursor: pointer;
+}
+
+.key-button:active {
+    background-color: cadetblue;
 }
 
 

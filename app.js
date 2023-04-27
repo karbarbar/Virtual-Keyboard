@@ -21,6 +21,7 @@ const keys = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '
     'Shift', ' \\ ', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '.', ',', '/', '▲', 'Shift',
     'Ctrl', 'Win', 'Alt', '', 'Alt', 'Ctrl', '◄', '▼', '►'];
 
+
 function init() {
     let output = '';
     for (let i = 0; i < keys.length; i++) {
@@ -31,4 +32,49 @@ function init() {
     }
     document.querySelector('.keyboard-container').innerHTML = output;
 }
+
 init();
+//Keydown
+document.addEventListener('keydown', (event) => {
+    const keyButtons = document.querySelectorAll('.key-button');
+    for (let i = 0; i < keyButtons.length; i++) {
+        if (keyButtons[i].textContent === event.key) {
+            keyButtons[i].classList.add('active');
+        }
+    }
+});
+
+//click
+
+
+//CapsLock
+const capsLock = document.querySelector('.key-button:nth-child(32)');
+capsLock.addEventListener('click', () => {
+    capsLockOn();
+});
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'CapsLock') {
+        capsLockOn();
+    }
+});
+
+function capsLockOn() {
+    capsLock.classList.toggle('active');
+    const letters = document.querySelectorAll('.key-button');
+    for (let i = 0; i < letters.length; i++) {
+        if (letters[i].textContent.length === 1) {
+            if (capsLock.classList.contains('active')) {
+                letters[i].textContent = letters[i].textContent.toUpperCase();
+            } else {
+                letters[i].textContent = letters[i].textContent.toLowerCase();
+            }
+        }
+    }
+}
+
+//Enter
+const enter = document.querySelector('.key-button:nth-child(28)');
+enter.addEventListener('click', () => {
+    textarea.value += '\n';
+});
+
