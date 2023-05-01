@@ -32,7 +32,9 @@ const keysRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='
   'Ctrl', 'Win', 'Alt', '', 'Alt', 'Ctrl', '◄', '▼', '►'];
 
 const keysArr = document.getElementsByClassName('key-button');
-// let capsLk = false;
+let capsLockOn = false;
+// const enterButton = document.querySelector('.key-button:nth-child(44)');
+
 // click
 const keyButtons = document.querySelectorAll('.key-button');
 for (let i = 0; i < keyButtons.length; i += 1) {
@@ -53,38 +55,6 @@ function init() {
   document.querySelector('.keyboard-container').innerHTML = output;
 }
 
-init();
-// CapsLock
-// const capsLock = document.querySelector('.key-button:nth-child(32)');
-// const capsLockActive = false;
-// capsLock.addEventListener('click', () => {
-//   capsLockOn();
-// });
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'CapsLock') {
-    capsLockOn();
-  } else if (event.key === 'Shift') {
-    shiftOn();
-  } else if (event.key === 'Control' && 'Shift') {
-    renameKeys();
-  } else if (event.key === 'Enter') {
-    textarea.value += '\n';
-  } else if (event.key === 'Backspace') {
-    textarea.value = textarea.value.slice(0, -1);
-  } else if (event.key === 'Tab') {
-    textarea.value += '    ';
-  } else {
-    // for (let i = 0; i < keyButtons.length; i += 1) {
-    //   if (keyButtons[i].textContent === event.key) {
-    //     keyButtons[i].classList.remove('key-color');
-    //     textarea.value += keyButtons[i].textContent;
-    //   }
-    // }
-  }
-});
-
-
-
 function renameKeys() {
   const letter = document.querySelectorAll('.key-button');
   for (let i = 0; i < letter.length; i += 1) {
@@ -97,71 +67,206 @@ function renameKeys() {
   }
 }
 
-
-function setUpperCaseKeys() {
+const setUpperCaseKeys = () => {
+  // eslint-disable-next-line no-restricted-syntax
   for (const key of keysArr) {
     if (key.innerHTML.length === 1) {
       key.innerHTML = key.innerHTML.toUpperCase();
     }
   }
-}
+};
 
 function setLowerCaseKeys() {
+  // eslint-disable-next-line no-restricted-syntax
   for (const key of keysArr) {
     if (key.innerHTML.length === 1) {
       key.innerHTML = key.innerHTML.toLowerCase();
     }
   }
 }
-// Shift
 
 function shiftOn() {
   const shift = document.querySelector('.key-button:nth-child(46)');
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Shift') {
+      shift.style.backgroundColor = 'cadetblue';
       setUpperCaseKeys();
     }
   });
   document.addEventListener('keyup', (event) => {
     if (event.key === 'Shift') {
+      shift.style.backgroundColor = 'lightgray';
       setLowerCaseKeys();
     }
   });
 }
 
-// function capsLockOn() {
-//     const capsLock   = keysArr[32].addEventListener(onkeydown());
-//     capsLk = !capsLk
-//     if(capsLk === true){
-//         capsLock.classList.add('active')
-//         setUpperCaseKeys()
-//     }else{
-//         capsLock.classList.remove('active')
-//         setLowerCaseKeys()
-//     }
+function shiftMouseOn() {
+  const shift = document.querySelector('.key-button:nth-child(46)');
+  shift.addEventListener('mousedown', () => {
+    shift.style.backgroundColor = 'cadetblue';
+    setUpperCaseKeys();
+  });
+  shift.addEventListener('mouseup', () => {
+    shift.style.backgroundColor = 'lightgray';
+    setLowerCaseKeys();
+  });
+}
 
-// capsLock.classList.toggle('.active');
-// const letters = document.querySelectorAll('.key-button');
-// for (let i = 0; i < letters.length; i += 1) {
-//   if (letters[i].textContent.length === 1) {
-//     if (capsLock.classList.contains('active')) {
-//       letters[i].textContent = letters[i].textContent.toUpperCase();
-//     } else {
-//       letters[i].textContent = letters[i].textContent.toLowerCase();
-//     }
+function capsLkOn() {
+  const capsLock = document.querySelector('.key-button:nth-child(32)');
+  capsLockOn = !capsLockOn;
+  if (capsLockOn) {
+    setUpperCaseKeys();
+    capsLock.style.backgroundColor = 'cadetblue';
+  } else {
+    setLowerCaseKeys();
+    capsLock.style.backgroundColor = 'lightgray';
+  }
+}
+
+// capsLockOn = !capsLockOn;
+// const capsLock = document.querySelector('.key-button:nth-child(32)');
+// document.addEventListener('keydown', (event) => {
+//   if (event.key === 'CapsLock') {
+//     capsLock.style.backgroundColor = 'red';
+//     setUpperCaseKeys();
+//   } else {
+//     capsLock.style.backgroundColor = 'lightgray';
+//     setLowerCaseKeys();
 //   }
-// }
-// }
+// });
+// document.addEventListener('keyup', (event) => {
+//   if (event.key === 'CapsLock') {
+//     setLowerCaseKeys();
+//   } else {
+//     setUpperCaseKeys();
+//   }
+// });
 
+function backspaceOn() {
+  const backspace = document.querySelector('.key-button:nth-child(14)');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Backspace') {
+      backspace.style.backgroundColor = 'cadetblue';
+      textarea.innerHTML = textarea.innerHTML.slice(0, -1);
+      setUpperCaseKeys();
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Backspace') {
+      backspace.style.backgroundColor = 'lightgray';
+    }
+  });
+}
 
+function enterOn() {
+  const enter = document.querySelector('.key-button:nth-child(44)');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      enter.style.backgroundColor = 'cadetblue';
+      textarea.innerHTML += '\n';
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Enter') {
+      enter.style.backgroundColor = 'lightgray';
+    }
+  });
+}
 
+function tabOn() {
+  const tab = document.querySelector('.key-button:nth-child(16)');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab') {
+      tab.style.backgroundColor = 'cadetblue';
+      textarea.innerHTML += '    ';
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Tab') {
+      tab.style.backgroundColor = 'lightgray';
+    }
+  });
+}
 
+function deleteOn() {
+  const del = document.querySelector('.key-button:nth-child(30)');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Delete') {
+      del.style.backgroundColor = 'cadetblue';
+      textarea.innerHTML = textarea.innerHTML.slice(0, -1);
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Delete') {
+      del.style.backgroundColor = 'lightgray';
+    }
+  });
+}
 
+function speceOn() {
+  const space = document.querySelector('.key-button:nth-child(64)');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === ' ') {
+      space.style.backgroundColor = 'cadetblue';
+      textarea.innerHTML += ' ';
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.key === ' ') {
+      space.style.backgroundColor = 'lightgray';
+    }
+  });
+}
 
+init();
 
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'CapsLock') {
+    capsLkOn();
+  } else if (event.key === 'Shift') {
+    shiftOn();
+  } else if (event.key === 'Control' && 'Shift') {
+    renameKeys();
+  } else if (event.key === 'Enter') {
+    enterOn();
+  } else if (event.key === 'Backspace') {
+    backspaceOn();
+  } else if (event.key === 'Tab') {
+    tabOn();
+  } else if (event.key === 'Delete') {
+    deleteOn();
+  } else if (event.key === ' ') {
+    speceOn();
+  } else {
+    for (let i = 0; i < keyButtons.length; i += 1) {
+      if (keyButtons[i].textContent === event.key) {
+        textarea.value += keyButtons[i].textContent;
+      }
+    }
+  }
+});
 
-// Enter
-const enter = document.querySelector('.key-button:nth-child(28)');
-enter.addEventListener('click', () => {
-  textarea.value += '\n';
+document.addEventListener('click', (event) => {
+  if (event.target.classList.contains('key-button')) {
+    const buttonValue = event.target.textContent;
+    if (buttonValue.length === 1) {
+      textarea.value += buttonValue;
+    } else if (buttonValue === 'Enter') {
+      textarea.value += '\n';
+    } else if (buttonValue === 'Backspace') {
+      textarea.value = textarea.value.slice(0, -1);
+    } else if (buttonValue === 'Tab') {
+      textarea.value += '    ';
+    } else if (buttonValue === 'Delete') {
+      textarea.innerHTML = textarea.innerHTML.slice(0, -1);
+    } else if (buttonValue === ' ') {
+      textarea.innerHTML += ' ';
+    } else if (buttonValue === 'CapsLock') {
+      capsLkOn();
+    } else if (buttonValue === 'Shift') {
+      shiftMouseOn();
+    }
+  }
 });
