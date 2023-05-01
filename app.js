@@ -17,7 +17,7 @@ keyboardWrapper.appendChild(keyboardContainer);
 
 const information = document.createElement('div');
 information.className = 'information';
-information.innerHTML = 'Смена языка: Ctrl + Shift';
+information.innerHTML = 'Смена языка: Ctrl + Alt';
 document.body.appendChild(information);
 
 const keysEn = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
@@ -25,6 +25,7 @@ const keysEn = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
   'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter',
   'Shift', ' \\ ', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '.', ',', '/', '▲', 'Shift',
   'Ctrl', 'Win', 'Alt', '', 'Alt', 'Ctrl', '◄', '▼', '►'];
+
 const keysRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
   'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', ' \\ ', 'DEL',
   'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
@@ -33,7 +34,7 @@ const keysRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='
 
 const keysArr = document.getElementsByClassName('key-button');
 let capsLockOn = false;
-// const enterButton = document.querySelector('.key-button:nth-child(44)');
+let ctrlOn = false;
 
 // click
 const keyButtons = document.querySelectorAll('.key-button');
@@ -125,24 +126,29 @@ function capsLkOn() {
   }
 }
 
-// capsLockOn = !capsLockOn;
-// const capsLock = document.querySelector('.key-button:nth-child(32)');
-// document.addEventListener('keydown', (event) => {
-//   if (event.key === 'CapsLock') {
-//     capsLock.style.backgroundColor = 'red';
-//     setUpperCaseKeys();
-//   } else {
-//     capsLock.style.backgroundColor = 'lightgray';
-//     setLowerCaseKeys();
-//   }
-// });
-// document.addEventListener('keyup', (event) => {
-//   if (event.key === 'CapsLock') {
-//     setLowerCaseKeys();
-//   } else {
-//     setUpperCaseKeys();
-//   }
-// });
+function ctrlAlt() {
+  const ctrl = document.querySelector('.key-button:nth-child(61)');
+  const alt = document.querySelector('.key-button:nth-child(63)');
+  ctrlOn = !ctrlOn;
+  if (ctrlOn) {
+    ctrl.style.backgroundColor = 'cadetblue';
+    alt.style.backgroundColor = 'cadetblue';
+  } else {
+    setLowerCaseKeys();
+    ctrl.style.backgroundColor = 'lightgray';
+    alt.style.backgroundColor = 'lightgray';
+  }
+}
+
+function ctrlAltOff() {
+  const ctrl = document.querySelector('.key-button:nth-child(61)');
+  const alt = document.querySelector('.key-button:nth-child(63)'); document.addEventListener('keyup', () => {
+    if (ctrlOn) {
+      ctrl.style.backgroundColor = 'lightgray';
+      alt.style.backgroundColor = 'lightgray';
+    }
+  });
+}
 
 function backspaceOn() {
   const backspace = document.querySelector('.key-button:nth-child(14)');
@@ -222,13 +228,19 @@ function speceOn() {
 
 init();
 
+const pressed = new Set();
 document.addEventListener('keydown', (event) => {
+  pressed.add(event.code);
+
   if (event.key === 'CapsLock') {
     capsLkOn();
   } else if (event.key === 'Shift') {
     shiftOn();
-  } else if (event.key === 'Control' && 'Shift') {
+  } else if (pressed.has('ControlLeft') && pressed.has('AltLeft')) {
     renameKeys();
+    ctrlAlt();
+    ctrlAltOff();
+    pressed.clear();
   } else if (event.key === 'Enter') {
     enterOn();
   } else if (event.key === 'Backspace') {
