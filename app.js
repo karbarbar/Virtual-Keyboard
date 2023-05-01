@@ -30,36 +30,16 @@ const keysRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='
   'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
   'Shift', ' \\ ', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▲', 'Shift',
   'Ctrl', 'Win', 'Alt', '', 'Alt', 'Ctrl', '◄', '▼', '►'];
-const keysEnTwo = {
-  '`': '~',
-  1: '!',
-  2: '@',
-  3: '#',
-  4: '$',
-  5: '%',
-  6: '^',
-  7: '&',
-  8: '*',
-  9: '(',
-  0: ')',
-  '-': '_',
-  '=': '+',
-};
-const keysRuTwo = {
-  ё: 'Ё',
-  1: '!',
-  2: '"',
-  3: '№',
-  4: ';',
-  5: '%',
-  6: ':',
-  7: '?',
-  8: '*',
-  9: '(',
-  0: ')',
-  '-': '_',
-  '=': '+',
-};
+
+const keysArr = document.getElementsByClassName('key-button');
+// let capsLk = false;
+// click
+const keyButtons = document.querySelectorAll('.key-button');
+for (let i = 0; i < keyButtons.length; i += 1) {
+  keyButtons[i].addEventListener('click', () => {
+    textarea.value += keyButtons[i].textContent;
+  });
+}
 
 function init() {
   let output = '';
@@ -73,43 +53,13 @@ function init() {
   document.querySelector('.keyboard-container').innerHTML = output;
 }
 
-function renameKeys() {
-  const letter = document.querySelectorAll('.key-button');
-  for (let i = 0; i < letter.length; i += 1) {
-    const text = letter[i].textContent;
-    if (keysEn.includes(text)) {
-      letter[i].textContent = keysRu[i];
-    } else {
-      letter[i].textContent = keysEn[i];
-    }
-  }
-}
-
-// Shift
-const shift = document.querySelector('.key-button:nth-child(46)');
-const shiftActive = false;
-
-function shiftOn() {
-  shift.classList.toggle('active');
-  const letters = document.querySelectorAll('.key-button');
-  for (let i = 0; i < letters.length; i += 1) {
-    if (letters[i].textContent.length === 1) {
-      if (shift.classList.contains('active')) {
-        letters[i].textContent = letters[i].textContent.toUpperCase();
-      } else {
-        letters[i].textContent = letters[i].textContent.toLowerCase();
-      }
-    }
-  }
-}
-
 init();
-
 // CapsLock
-const capsLock = document.querySelector('.key-button:nth-child(32)');
-capsLock.addEventListener('click', () => {
-  capsLockOn();
-});
+// const capsLock = document.querySelector('.key-button:nth-child(32)');
+// const capsLockActive = false;
+// capsLock.addEventListener('click', () => {
+//   capsLockOn();
+// });
 document.addEventListener('keydown', (event) => {
   if (event.key === 'CapsLock') {
     capsLockOn();
@@ -124,36 +74,91 @@ document.addEventListener('keydown', (event) => {
   } else if (event.key === 'Tab') {
     textarea.value += '    ';
   } else {
-    for (let i = 0; i < keyButtons.length; i += 1) {
-      if (keyButtons[i].textContent === event.key) {
-        keyButtons[i].classList.add('active');
-        textarea.value += keyButtons[i].textContent;
-      }
-    }
+    // for (let i = 0; i < keyButtons.length; i += 1) {
+    //   if (keyButtons[i].textContent === event.key) {
+    //     keyButtons[i].classList.remove('key-color');
+    //     textarea.value += keyButtons[i].textContent;
+    //   }
+    // }
   }
 });
 
-// click
-const keyButtons = document.querySelectorAll('.key-button');
-for (let i = 0; i < keyButtons.length; i += 1) {
-  keyButtons[i].addEventListener('click', () => {
-    textarea.value += keyButtons[i].textContent;
-  });
-}
 
-function capsLockOn() {
-  capsLock.classList.toggle('active');
-  const letters = document.querySelectorAll('.key-button');
-  for (let i = 0; i < letters.length; i += 1) {
-    if (letters[i].textContent.length === 1) {
-      if (capsLock.classList.contains('active')) {
-        letters[i].textContent = letters[i].textContent.toUpperCase();
-      } else {
-        letters[i].textContent = letters[i].textContent.toLowerCase();
-      }
+
+function renameKeys() {
+  const letter = document.querySelectorAll('.key-button');
+  for (let i = 0; i < letter.length; i += 1) {
+    const text = letter[i].textContent;
+    if (keysEn.includes(text)) {
+      letter[i].textContent = keysRu[i];
+    } else {
+      letter[i].textContent = keysEn[i];
     }
   }
 }
+
+
+function setUpperCaseKeys() {
+  for (const key of keysArr) {
+    if (key.innerHTML.length === 1) {
+      key.innerHTML = key.innerHTML.toUpperCase();
+    }
+  }
+}
+
+function setLowerCaseKeys() {
+  for (const key of keysArr) {
+    if (key.innerHTML.length === 1) {
+      key.innerHTML = key.innerHTML.toLowerCase();
+    }
+  }
+}
+// Shift
+
+function shiftOn() {
+  const shift = document.querySelector('.key-button:nth-child(46)');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Shift') {
+      setUpperCaseKeys();
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Shift') {
+      setLowerCaseKeys();
+    }
+  });
+}
+
+// function capsLockOn() {
+//     const capsLock   = keysArr[32].addEventListener(onkeydown());
+//     capsLk = !capsLk
+//     if(capsLk === true){
+//         capsLock.classList.add('active')
+//         setUpperCaseKeys()
+//     }else{
+//         capsLock.classList.remove('active')
+//         setLowerCaseKeys()
+//     }
+
+// capsLock.classList.toggle('.active');
+// const letters = document.querySelectorAll('.key-button');
+// for (let i = 0; i < letters.length; i += 1) {
+//   if (letters[i].textContent.length === 1) {
+//     if (capsLock.classList.contains('active')) {
+//       letters[i].textContent = letters[i].textContent.toUpperCase();
+//     } else {
+//       letters[i].textContent = letters[i].textContent.toLowerCase();
+//     }
+//   }
+// }
+// }
+
+
+
+
+
+
+
 
 // Enter
 const enter = document.querySelector('.key-button:nth-child(28)');
