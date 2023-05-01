@@ -73,6 +73,36 @@ function init() {
   document.querySelector('.keyboard-container').innerHTML = output;
 }
 
+function renameKeys() {
+  const letter = document.querySelectorAll('.key-button');
+  for (let i = 0; i < letter.length; i += 1) {
+    const text = letter[i].textContent;
+    if (keysEn.includes(text)) {
+      letter[i].textContent = keysRu[i];
+    } else {
+      letter[i].textContent = keysEn[i];
+    }
+  }
+}
+
+// Shift
+const shift = document.querySelector('.key-button:nth-child(46)');
+const shiftActive = false;
+
+function shiftOn() {
+  shift.classList.toggle('active');
+  const letters = document.querySelectorAll('.key-button');
+  for (let i = 0; i < letters.length; i += 1) {
+    if (letters[i].textContent.length === 1) {
+      if (shift.classList.contains('active')) {
+        letters[i].textContent = letters[i].textContent.toUpperCase();
+      } else {
+        letters[i].textContent = letters[i].textContent.toLowerCase();
+      }
+    }
+  }
+}
+
 init();
 
 // CapsLock
@@ -117,36 +147,6 @@ function capsLockOn() {
   for (let i = 0; i < letters.length; i += 1) {
     if (letters[i].textContent.length === 1) {
       if (capsLock.classList.contains('active')) {
-        letters[i].textContent = letters[i].textContent.toUpperCase();
-      } else {
-        letters[i].textContent = letters[i].textContent.toLowerCase();
-      }
-    }
-  }
-}
-
-function renameKeys() {
-  const letter = document.querySelectorAll('.key-button');
-  for (let i = 0; i < letter.length; i += 1) {
-    const text = letter[i].textContent;
-    if (keysEn.includes(text)) {
-      letter[i].textContent = keysRu[i];
-    } else {
-      letter[i].textContent = keysEn[i];
-    }
-  }
-}
-
-// Shift
-const shift = document.querySelector('.key-button:nth-child(46)');
-const shiftActive = false;
-
-function shiftOn() {
-  shift.classList.toggle('active');
-  const letters = document.querySelectorAll('.key-button');
-  for (let i = 0; i < letters.length; i += 1) {
-    if (letters[i].textContent.length === 1) {
-      if (shift.classList.contains('active')) {
         letters[i].textContent = letters[i].textContent.toUpperCase();
       } else {
         letters[i].textContent = letters[i].textContent.toLowerCase();
